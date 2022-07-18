@@ -3,19 +3,25 @@ import { html, LitElement } from 'lit'
 class PercentageButton extends LitElement {
 	constructor() {
 		super()
-		this.session = document.querySelector('#session')
+		this.tipCalculator = document.querySelector('#session')
 	}
 
 	static get properties() {
 		return {
 			percentage: { type: Number },
+			isActive: { type: Boolean },
 		}
 	}
 
 	render() {
 		return html`
+			<style>
+				button {
+					background-color: ${this.isActive ? 'red' : '#fff'};
+				}
+			</style>
 			<button
-				@click=${() => (this.session.currentPercentage = this.percentage)}
+				@click=${() => (this.tipCalculator.percentageAmount = this.percentage)}
 			>
 				${this.percentage}%
 			</button>
