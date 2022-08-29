@@ -1,4 +1,5 @@
 import { html, css, LitElement } from 'lit'
+import { generalStyles } from '../utils/generalStyles'
 
 class AppInput extends LitElement {
 	static get properties() {
@@ -16,42 +17,74 @@ class AppInput extends LitElement {
 	}
 
 	static get styles() {
-		return css`
-			* {
-				box-sizing: border-box;
-				display: block;
-			}
+		return [
+			generalStyles,
+			css`
+				* {
+					box-sizing: border-box;
+					display: block;
+				}
 
-			:host {
-				width: 200px;
-			}
+				:host {
+					width: 200px;
+					border-radius: 8px;
+				}
 
-			label {
-				font-size: 1.4rem;
-				margin-bottom: 5px;
-			}
+				:host([error]) input {
+					border: 3px solid #c88573;
+				}
 
-			.container {
-				position: relative;
-				width: 100%;
-			}
+				:host([error]) input:focus {
+					outline: none;
+				}
 
-			.container input {
-				width: 100%;
-				background-color: #f3f8fc;
-				padding: 10px 0px;
-				padding-right: 15px;
-				text-align: right;
-				border: none;
-				border-radius: 8px;
-			}
+				label {
+					margin-bottom: 5px;
+					color: var(--color-dark-gray);
+					font-weight: 700;
+				}
 
-			.container app-icon {
-				position: absolute;
-				top: calc(50% - 10px);
-				left: 7px;
-			}
-		`
+				.container {
+					position: relative;
+					width: 100%;
+				}
+
+				.input {
+					width: 100%;
+					background-color: #f3f8fc;
+					padding: 10px 0px;
+					padding-right: 15px;
+					text-align: right;
+					border: none;
+					border-radius: 8px;
+					transistion: all 1s;
+					color: #1e5758;
+					font-weight: 700;
+					placeholder: #abbaba;
+				}
+
+				.container input:focus {
+					outline: solid #74c5b8;
+				}
+
+				.container app-icon {
+					position: absolute;
+					top: calc(50% - 7.5px);
+					left: 7px;
+				}
+
+				.label-container {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+				}
+
+				.error-message {
+					color: #c88573;
+					font-weight: 600;
+				}
+			`,
+		]
 	}
 
 	constructor() {
@@ -61,10 +94,14 @@ class AppInput extends LitElement {
 
 	render() {
 		return html`
-			<label htmlFor="${this.name}">${this.label}</label>
+			<div class="label-container">
+				<label htmlFor="${this.name}">${this.label}</label>
+				<span class="error-message">${this.error}</span>
+			</div>
 			<div class="container">
 				<app-icon></app-icon>
 				<input
+					class="input"
 					type="${this.type}"
 					name="${this.name}"
 					placeholder="${this.placeholder}"
