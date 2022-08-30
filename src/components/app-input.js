@@ -13,6 +13,7 @@ class AppInput extends LitElement {
 			required: { type: Boolean },
 			error: { type: String },
 			icon: { type: String },
+			change: { type: Function },
 		}
 	}
 
@@ -101,6 +102,7 @@ class AppInput extends LitElement {
 			<div class="container">
 				<app-icon></app-icon>
 				<input
+					@input="${this.change}"
 					class="input"
 					type="${this.type}"
 					name="${this.name}"

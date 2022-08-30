@@ -3,6 +3,7 @@ import { html, css, LitElement } from 'lit'
 class SimpleButton extends LitElement {
 	static properties = {
 		active: { type: Boolean },
+		click: { type: Function },
 	}
 
 	static styles = css`
@@ -37,7 +38,10 @@ class SimpleButton extends LitElement {
 
 	render() {
 		return html`
-			<button class="${this.active ? 'button-active' : 'button-simple'}">
+			<button
+				@click="${this.click}"
+				class="${this.active ? 'button-active' : 'button-simple'}"
+			>
 				<slot></slot>
 			</button>
 		`
