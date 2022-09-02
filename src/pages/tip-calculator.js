@@ -2,6 +2,7 @@ import { html, css, LitElement } from 'lit'
 
 import '../components/app-input.js'
 import '../components/simple-button.js'
+import { generalStyles } from '../utils/generalStyles.js'
 
 class TipCalculator extends LitElement {
 	static get is() {
@@ -18,7 +19,40 @@ class TipCalculator extends LitElement {
 	}
 
 	static get styles() {
-		return css``
+		return [
+			generalStyles,
+			css`
+				.tip-calculator-container {
+					max-width: 500px;
+					display: grid;
+					grid-template-columns: 1fr 1fr;
+					background-color: #fff;
+					border-radius: 10px;
+					padding: 20px;
+				}
+
+				.tip-calculator-amount-container {
+					color: white;
+					margin-left: 20px;
+					border-radius: 10px;
+					background-color: #00464b;
+					padding: 20px;
+				}
+
+				.tip-calculator-buttons-container {
+					margin: 30px 0px;
+					display: grid;
+					gap: 10px;
+					grid-template-columns: repeat(3, min-content);
+				}
+
+				.tip-calculator-amount {
+					display: flex;
+					justify-content: space-between;
+					alig-items: center;
+				}
+			`,
+		]
 	}
 
 	constructor() {
@@ -42,15 +76,16 @@ class TipCalculator extends LitElement {
 	}
 
 	render() {
-		return html`<div>
+		return html`<div class="tip-calculator-container">
 			<div>
 				<app-input
+					label="Bill"
 					type="number"
 					.change="${(e) => {
 						this.bill = e.target.value
 					}}"
 				></app-input>
-				<div>
+				<div class="tip-calculator-buttons-container">
 					<simple-button
 						.click="${() => {
 							this.tipPercentage = 0.05
@@ -86,23 +121,24 @@ class TipCalculator extends LitElement {
 					></app-input>
 				</div>
 				<app-input
+					label="Number of people"
 					type="number"
 					.change="${(e) => {
 						this.people = e.target.value
 					}}"
 				></app-input>
 			</div>
-			<div>
-				<div>
+			<div class="tip-calculator-amount-container">
+				<div class="tip-calculator-amount">
 					<p>
-						Tip Amount
+						Tip Amount <br />
 						<span>/ person</span>
 					</p>
 					<p>$${this.tipPerPerson}</p>
 				</div>
-				<div>
+				<div class="tip-calculator-amount">
 					<p>
-						Total
+						Total <br />
 						<span>/ person</span>
 					</p>
 					<p>$${this.totalPerPerson}</p>

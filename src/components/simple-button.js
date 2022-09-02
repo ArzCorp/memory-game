@@ -8,6 +8,8 @@ class SimpleButton extends LitElement {
 
 	static styles = css`
 		button {
+			width: 100%;
+			min-height: 50px;
 			cursor: pointer;
 			padding: 8px 25px;
 			font-size: 1.8rem;

@@ -27,7 +27,7 @@ class AppInput extends LitElement {
 				}
 
 				:host {
-					width: 200px;
+					width: 100%;
 					border-radius: 8px;
 				}
 
@@ -52,6 +52,8 @@ class AppInput extends LitElement {
 
 				.input {
 					width: 100%;
+					min-height: 50px;
+					max-height: 50px;
 					background-color: #f3f8fc;
 					padding: 10px 0px;
 					padding-right: 15px;
@@ -95,10 +97,12 @@ class AppInput extends LitElement {
 
 	render() {
 		return html`
-			<div class="label-container">
-				<label htmlFor="${this.name}">${this.label}</label>
-				<span class="error-message">${this.error}</span>
-			</div>
+			${this.label
+				? html`<div class="label-container">
+						<label htmlFor="${this.name}">${this.label}</label>
+						<span class="error-message">${this.error}</span>
+				  </div>`
+				: null}
 			<div class="container">
 				<app-icon></app-icon>
 				<input
