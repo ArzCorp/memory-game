@@ -23,7 +23,8 @@ class TipCalculator extends LitElement {
 			generalStyles,
 			css`
 				.tip-calculator-container {
-					max-width: 500px;
+					max-width: 700px;
+					min-width: 700px;
 					display: grid;
 					grid-template-columns: 1fr 1fr;
 					background-color: #fff;
@@ -40,16 +41,21 @@ class TipCalculator extends LitElement {
 				}
 
 				.tip-calculator-buttons-container {
+					width: 100%;
 					margin: 30px 0px;
 					display: grid;
 					gap: 10px;
-					grid-template-columns: repeat(3, min-content);
+					grid-template-columns: repeat(3, 1fr);
 				}
 
 				.tip-calculator-amount {
 					display: flex;
 					justify-content: space-between;
-					alig-items: center;
+				}
+
+				.tip-calculator-amount-number {
+					font-size: 3.3rem;
+					margin: 0px;
 				}
 			`,
 		]
@@ -64,15 +70,21 @@ class TipCalculator extends LitElement {
 	}
 
 	get tipPerPerson() {
-		if (this.bill && this.people && this.tipPercentage)
-			return (this.bill * this.tipPercentage) / this.people
-		return 0
+		if (this.bill && this.people && this.tipPercentage) {
+			const result = (this.bill * this.tipPercentage) / this.people
+			return parseFloat(result.toFixed(2))
+		} else {
+			return 0
+		}
 	}
 
 	get totalPerPerson() {
-		if (this.bill && this.people && this.tipPerPerson)
-			return this.bill / this.people + this.tipPerPerson
-		return 0
+		if (this.bill && this.people && this.tipPerPerson) {
+			const result = this.bill / this.people + this.tipPerPerson
+			return parseFloat(result.toFixed(2))
+		} else {
+			return 0
+		}
 	}
 
 	render() {
@@ -82,32 +94,38 @@ class TipCalculator extends LitElement {
 					label="Bill"
 					type="number"
 					.change="${(e) => {
-						this.bill = e.target.value
+						this.bill = parseFloat(e.target.value)
 					}}"
 				></app-input>
 				<div class="tip-calculator-buttons-container">
 					<simple-button
+						?active="${this.tipPercentage === 0.05}"
 						.click="${() => {
 							this.tipPercentage = 0.05
 						}}"
 						>5%</simple-button
 					>
-					<simple-button .click="${() => (this.tipPercentage = 0.1)}"
+					<simple-button
+						?active="${this.tipPercentage === 0.1}"
+						.click="${() => (this.tipPercentage = 0.1)}"
 						>10%</simple-button
 					>
 					<simple-button
+						?active="${this.tipPercentage === 0.15}"
 						.click="${() => {
 							this.tipPercentage = 0.15
 						}}"
 						>15%</simple-button
 					>
 					<simple-button
+						?active="${this.tipPercentage === 0.25}"
 						.click="${() => {
 							this.tipPercentage = 0.25
 						}}"
 						>25%</simple-button
 					>
 					<simple-button
+						?active="${this.tipPercentage === 0.5}"
 						.click="${() => {
 							this.tipPercentage = 0.5
 						}}"
@@ -116,7 +134,7 @@ class TipCalculator extends LitElement {
 					<app-input
 						type="number"
 						.change="${(e) => {
-							this.tipPercentage = e.target.value / 100
+							this.tipPercentage = parseFloat(e.target.value / 100)
 						}}"
 					></app-input>
 				</div>
@@ -124,7 +142,7 @@ class TipCalculator extends LitElement {
 					label="Number of people"
 					type="number"
 					.change="${(e) => {
-						this.people = e.target.value
+						this.people = parseFloat(e.target.value)
 					}}"
 				></app-input>
 			</div>
@@ -134,14 +152,14 @@ class TipCalculator extends LitElement {
 						Tip Amount <br />
 						<span>/ person</span>
 					</p>
-					<p>$${this.tipPerPerson}</p>
+					<p class="tip-calculator-amount-number">$${this.tipPerPerson}</p>
 				</div>
 				<div class="tip-calculator-amount">
 					<p>
 						Total <br />
 						<span>/ person</span>
 					</p>
-					<p>$${this.totalPerPerson}</p>
+					<p class="tip-calculator-amount-number">$${this.totalPerPerson}</p>
 				</div>
 			</div>
 		</div>`
